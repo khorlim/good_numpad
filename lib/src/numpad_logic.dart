@@ -3,25 +3,40 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import 'numpad_config.dart';
+
 class NumPadLogic {
   NumPadLogic({
     num initialNum = 0,
-    this.max = 999999999999,
-  }) : _currentNum = initialNum;
+    NumPadConfig? config,
+  }) {
+    _config = config ?? NumPadConfig(maxValue: 999999999, minValue: 0);
+    updateCurrentNum(initialNum);
+  }
 
   late num _currentNum;
+  num get currentNum => _currentNum;
   bool _isDecimal = false;
   final StreamController<num> _numberStreamController =
       StreamController<num>.broadcast();
-  Stream get numberStream => _numberStreamController.stream;
-  final num max;
+  Stream<num> get numberStream => _numberStreamController.stream;
+  late NumPadConfig _config;
 
   void updateCurrentNum(num newNum) {
-    if (newNum > max) {
-      newNum = max;
+    if (newNum > _config.maxValue) {
+      newNum = _config.maxValue;
     }
     _currentNum = newNum;
     _numberStreamController.add(_currentNum);
+  }
+
+  void updateConfig(NumPadConfig config) {
+    _config = config;
+    if (currentNum > _config.maxValue) {
+      updateCurrentNum(_config.maxValue);
+    } else if (currentNum < config.minValue) {
+      updateCurrentNum(_config.minValue);
+    }
   }
 
   void onNumberPressed(int number) {

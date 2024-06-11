@@ -47,6 +47,7 @@ class _GoodNumPadState extends State<GoodNumPad> {
       onClearPressed: () {
         numPadLogic.onClearPressed();
       },
+      onEnterPressed: () {},
     );
     super.initState();
   }
@@ -102,7 +103,7 @@ class _GoodNumPadState extends State<GoodNumPad> {
                           ),
                     );
                   },
-                ).toList(),
+                ),
                 CupertinoButton(
                     padding: EdgeInsets.zero,
                     minSize: 0,
