@@ -5,6 +5,7 @@ class NumberKeyboardListener {
     required this.onNumberPressed,
     required this.onDeletePressed,
     required this.onDecimalPressed,
+    required this.onClearPressed,
   }) {
     HardwareKeyboard.instance.addHandler(_onKeyEvent);
   }
@@ -12,6 +13,7 @@ class NumberKeyboardListener {
   final void Function(int number) onNumberPressed;
   final void Function() onDeletePressed;
   final void Function() onDecimalPressed;
+  final void Function() onClearPressed;
 
   bool _onKeyEvent(KeyEvent keyEvent) {
     if (keyEvent is! KeyDownEvent) {
@@ -28,6 +30,8 @@ class NumberKeyboardListener {
       onDecimalPressed();
     } else if (keyEvent.logicalKey == LogicalKeyboardKey.numpadDecimal) {
       onDecimalPressed();
+    } else if (keyEvent.logicalKey == LogicalKeyboardKey.escape) {
+      onClearPressed();
     }
 
     return false;

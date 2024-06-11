@@ -29,20 +29,27 @@ class GoodNumPad extends StatefulWidget {
 
 class _GoodNumPadState extends State<GoodNumPad> {
   final NumPadLogic numPadLogic = NumPadLogic();
-  late final NumberKeyboardListener numberKeyboardListener =
-      NumberKeyboardListener(
-    onNumberPressed: (number) {
-      print('keyboards number pressed: $number');
-      numPadLogic.onNumberPressed(number);
-    },
-    onDeletePressed: () {
-      numPadLogic.onDeletePressed();
-    },
-    onDecimalPressed: () {
-      if (!widget.hasDecimal) return;
-      numPadLogic.onDecimalPressed();
-    },
-  );
+  late final NumberKeyboardListener numberKeyboardListener;
+
+  @override
+  void initState() {
+    numberKeyboardListener = NumberKeyboardListener(
+      onNumberPressed: (number) {
+        numPadLogic.onNumberPressed(number);
+      },
+      onDeletePressed: () {
+        numPadLogic.onDeletePressed();
+      },
+      onDecimalPressed: () {
+        if (!widget.hasDecimal) return;
+        numPadLogic.onDecimalPressed();
+      },
+      onClearPressed: () {
+        numPadLogic.onClearPressed();
+      },
+    );
+    super.initState();
+  }
 
   @override
   void dispose() {
