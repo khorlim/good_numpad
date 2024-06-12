@@ -7,7 +7,7 @@ class NumPadConfig<T extends num> {
     required this.minValue,
   });
 
-  NumPadConfig.empty()
+  const NumPadConfig.empty()
       : maxValue = 0 as T,
         minValue = 0 as T;
 }
