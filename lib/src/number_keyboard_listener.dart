@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class NumberKeyboardListener {
@@ -7,6 +8,7 @@ class NumberKeyboardListener {
     required this.onDecimalPressed,
     required this.onClearPressed,
     required this.onEnterPressed,
+    this.onPastePressed,
   }) {
     HardwareKeyboard.instance.addHandler(_onKeyEvent);
   }
@@ -16,11 +18,13 @@ class NumberKeyboardListener {
   final void Function() onDecimalPressed;
   final void Function() onClearPressed;
   final void Function() onEnterPressed;
+  final void Function()? onPastePressed;
 
   bool _onKeyEvent(KeyEvent keyEvent) {
     if (keyEvent is! KeyDownEvent) {
       return false;
     }
+
     bool isNumber =
         keyEvent.logicalKey.keyId >= LogicalKeyboardKey.digit0.keyId &&
             keyEvent.logicalKey.keyId <= LogicalKeyboardKey.digit9.keyId;
@@ -36,6 +40,14 @@ class NumberKeyboardListener {
       onClearPressed();
     } else if (keyEvent.logicalKey == LogicalKeyboardKey.enter) {
       onEnterPressed();
+    } else if ((keyEvent.logicalKey == LogicalKeyboardKey.keyV &&
+            keyEvent.logicalKey == LogicalKeyboardKey.control) ||
+        (keyEvent.logicalKey == LogicalKeyboardKey.keyV &&
+            keyEvent.logicalKey == LogicalKeyboardKey.meta)) {
+      // Handle paste (Cmd+V for macOS, Ctrl+V for Windows)
+      if (onPastePressed != null) {
+        onPastePressed!();
+      }
     }
 
     return false;
