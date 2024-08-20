@@ -26,13 +26,13 @@ class NumPadLogic {
       newNum = _config.maxValue;
     }
     _currentNum = newNum;
-    _numberStreamController.add(_currentNum);
 
     updateShowingNum(newNum);
   }
 
   void updateShowingNum(num newNum) {
     _showingNum = newNum;
+    _numberStreamController.add(_currentNum);
   }
 
   void updateConfig(NumPadConfig config) {
