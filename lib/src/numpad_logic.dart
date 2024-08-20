@@ -34,7 +34,7 @@ class NumPadLogic {
 
   void updateShowingNum(num newNum) {
     _showingNum = newNum;
-    _numberStreamController.add(_currentNum);
+    _numberStreamController.add(newNum);
   }
 
   void updateConfig(NumPadConfig config) {
