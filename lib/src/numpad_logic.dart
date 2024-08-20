@@ -21,13 +21,15 @@ class NumPadLogic {
   Stream<num> get numberStream => _numberStreamController.stream;
   late NumPadConfig _config;
 
-  void updateCurrentNum(num newNum) {
+  void updateCurrentNum(num newNum, {bool updateShowing = true}) {
     if (newNum > _config.maxValue) {
       newNum = _config.maxValue;
     }
     _currentNum = newNum;
 
-    updateShowingNum(newNum);
+    if (updateShowing) {
+      updateShowingNum(newNum);
+    }
   }
 
   void updateShowingNum(num newNum) {
