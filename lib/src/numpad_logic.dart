@@ -1,8 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-
 import 'numpad_config.dart';
 
 class NumPadLogic {
@@ -14,7 +11,9 @@ class NumPadLogic {
     updateCurrentNum(initialNum);
   }
 
+  late num _showingNum;
   late num _currentNum;
+  num get showingNum => _showingNum;
   num get currentNum => _currentNum;
   bool _isDecimal = false;
   final StreamController<num> _numberStreamController =
@@ -28,6 +27,12 @@ class NumPadLogic {
     }
     _currentNum = newNum;
     _numberStreamController.add(_currentNum);
+
+    updateShowingNum(newNum);
+  }
+
+  void updateShowingNum(num newNum) {
+    _showingNum = newNum;
   }
 
   void updateConfig(NumPadConfig config) {
