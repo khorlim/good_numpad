@@ -24,21 +24,23 @@ class NumberKeyboardListener {
     if (keyEvent is! KeyDownEvent) {
       return false;
     }
-
+    bool isNumPadNumber =
+        keyEvent.logicalKey.keyId >= LogicalKeyboardKey.numpad0.keyId &&
+            keyEvent.logicalKey.keyId <= LogicalKeyboardKey.numpad9.keyId;
     bool isNumber =
         keyEvent.logicalKey.keyId >= LogicalKeyboardKey.digit0.keyId &&
             keyEvent.logicalKey.keyId <= LogicalKeyboardKey.digit9.keyId;
-    if (isNumber) {
+    if (isNumber || isNumPadNumber) {
       onNumberPressed(int.parse(keyEvent.logicalKey.keyLabel));
     } else if (keyEvent.logicalKey == LogicalKeyboardKey.backspace) {
       onDeletePressed();
-    } else if (keyEvent.logicalKey == LogicalKeyboardKey.period) {
-      onDecimalPressed();
-    } else if (keyEvent.logicalKey == LogicalKeyboardKey.numpadDecimal) {
+    } else if (keyEvent.logicalKey == LogicalKeyboardKey.period ||
+        keyEvent.logicalKey == LogicalKeyboardKey.numpadDecimal) {
       onDecimalPressed();
     } else if (keyEvent.logicalKey == LogicalKeyboardKey.escape) {
       onClearPressed();
-    } else if (keyEvent.logicalKey == LogicalKeyboardKey.enter) {
+    } else if (keyEvent.logicalKey == LogicalKeyboardKey.enter ||
+        keyEvent.logicalKey == LogicalKeyboardKey.numpadAdd) {
       onEnterPressed();
     } else if ((keyEvent.logicalKey == LogicalKeyboardKey.keyV &&
             keyEvent.logicalKey == LogicalKeyboardKey.control) ||
@@ -49,7 +51,6 @@ class NumberKeyboardListener {
         onPastePressed!();
       }
     }
-
     return false;
   }
 
